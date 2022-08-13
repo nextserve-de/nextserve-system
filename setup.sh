@@ -8,7 +8,10 @@ function ShowStartInfo() {
      ___ ___ _ _| |_ ___ ___ ___ _ _ ___ 
     |   | -_|_'_|  _|_ -| -_|  _| | | -_|
     |_|_|___|_,_|_| |___|___|_|  \_/|___|
-        **Server preparation tool**"
+        **Server preparation tool**
+        
+    
+    "
 }
 
 function CheckBefore() {
@@ -48,13 +51,22 @@ function Register() {
     hostname=`hostname`
 
 
-    curl --location --request POST '95.169.188.71:3002/server/register' \
+    serverid=$(curl --location --request POST '95.169.188.71:3002/server/register' \
         --form "owner=${name}" \
         --form "sshkey=${private_key}" \
         --form "hostname=${hostname}" \
         --form "contact=${email}" \
-        --form "keypass=${password}"
+        --form "keypass=${password}")
+    echo "Server registered with id: ${serverid}"
+
+    #installs subdomain
+    
+    #sets hostname on server
+    echo "Setting hostname..."
+    hostnamectl set-hostname ${serverid}.machine.nextserve.de
+    echo "Hostname set."
 }
+
 
 
 
