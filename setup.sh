@@ -25,6 +25,11 @@ function CheckBefore() {
     #    exit
     #fi
     echo "Current Debian-Version: `cat /etc/debian_version`"
+    echo "Updating system..."
+    sudo apt update
+    sudo apt upgrade
+    echo "System updated."
+    sudo apt-get install curl
 }
 
 function Register() { 
@@ -67,10 +72,7 @@ function Register() {
 }
 
 function InstallPanel() {
-    echo "Updating system..."
-    sudo apt update
-    sudo apt upgrade
-    echo "System updated."
+    
 
     echo "Getting Panel installation..."
     wget http://repo.fastpanel.direct/install_fastpanel.sh
