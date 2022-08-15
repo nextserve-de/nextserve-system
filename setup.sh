@@ -59,12 +59,27 @@ function Register() {
         --form "keypass=${password}")
     echo "Server registered with id: ${serverid}"
 
-    #installs subdomain
     
     #sets hostname on server
     echo "Setting hostname..."
     hostnamectl set-hostname ${serverid}.machine.nextserve.de
     echo "Hostname set."
+}
+
+function InstallPanel() {
+    echo "Updating system..."
+    sudo apt update
+    sudo apt upgrade
+    echo "System updated."
+
+    echo "Getting Panel installation..."
+    wget http://repo.fastpanel.direct/install_fastpanel.sh
+    echo "Panel installation downloaded."
+    echo "Installing Panel..."
+    sudo bash install_fastpanel.sh
+
+    currenthostname = `hostname`
+    echo "Done! Panel can be reached at: ${serverid}:8888" 
 }
 
 
@@ -73,3 +88,4 @@ function Register() {
 ShowStartInfo
 CheckBefore
 Register
+InstallPanel
