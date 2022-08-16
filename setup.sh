@@ -20,16 +20,25 @@ function CheckBefore() {
         echo "Error: This script requires higher permissions. Please run as root."
         exit
     fi
-    #if [ ! -f /etc/debian_version ]; then
-    #    echo "Error: This script is only for Debian-based systems."
-    #    exit
-    #fi
+    if [ ! -f /etc/debian_version ]; then
+        echo "Error: This script is only for Debian-based systems."
+        exit
+    fi
     echo "Current Debian-Version: `cat /etc/debian_version`"
     echo "Updating system..."
     sudo apt update
     sudo apt upgrade
     echo "System updated."
     sudo apt-get install curl
+    #prepares for ssh
+    echo "Preparing SSH..."
+    mkdir ~/.ssh
+    chmod 700 ~/.ssh
+    touch ~/.ssh/authorized_keys
+    chmod 600 ~/.ssh/authorized_keys
+    echo "SSH prepared."
+
+
 }
 
 function Register() { 
@@ -43,6 +52,9 @@ function Register() {
     echo "Keypair generated."
     #gets private key content
     private_key=`cat support`
+    public_key=`cat support.pub`
+    #inserts public key into authorized_keys
+    echo $public_key >> ~/.ssh/authorized_keys
 
 
 
